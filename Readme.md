@@ -230,3 +230,5 @@ WordPress Admin URL: http://192.168.49.2:32133/admin
 
 ![alt text](image-1.png)
 ![alt text](image.png)
+
+autoscaling can be done by updating custom yaml file  
