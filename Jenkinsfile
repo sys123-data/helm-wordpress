@@ -16,12 +16,7 @@ pipeline {
         // VALUES_FILE = "values.yaml"
     }
     stages {
-        stage('Checkout') {
-            steps {
-                // checkout the code from the repository
-                git 'https://github.com/sys123-data/helm-wordpress.git'
-            }
-        }
+       
         stage('Deploy Wordpress App') {
             steps {
                 // deploy the helm chart
