@@ -21,6 +21,7 @@ pipeline {
                 // checkout the code from the repository
                 git 'https://github.com/sys123-data/helm-wordpress.git'
             }
+        }
         stage('Deploy Wordpress App') {
             steps {
                 // deploy the helm chart
@@ -29,10 +30,8 @@ pipeline {
                     sh "kubectl create namespace ${NAMESPACE}"
                     // deploy the helm chart
                     // helm install my-wordpress bitnami/wordpress --version 24.1.13 --namespace wordpress-ns --set service.type=NodePort
-                    sh "helm install ${RELEASE_NAME} ${HELM_CHART} --version ${WORDPRESS_VERSION} --namespace ${NAMESPACE} --set service.type=${SERVICE_TYPE}"
                 }
             }
-        }
         }
     }
 }
