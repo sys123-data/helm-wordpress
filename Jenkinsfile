@@ -1,30 +1,47 @@
-// steps to build wordpress in k8s using helm
 pipeline {
     agent any
+
     environment {
-        // define the namespace
-        NAMESPACE = "wordpress-ns"
-        // define the helm chart name
-        HELM_CHART = "bitnami/wordpress"
-        // define the helm release name
+        HELM_HOME = "$HOME/.helm"
+        HELM_REPO = "bitnami"
+        HELM_CHART = "wordpress"
         RELEASE_NAME = "my-wordpress"
-        // define the version of the wordpress app
-        WORDPRESS_VERSION = "24.1.13"
-        // service type
+        CHART_VERSION = "24.1.13"
+        NAMESPACE = "wordpress-ns"
         SERVICE_TYPE = "NodePort"
-        // define the helm values file
-        // VALUES_FILE = "values.yaml"
+        HELM_CMD = "/snap/bin/helm"
     }
+
     stages {
-       
-        stage('Deploy Wordpress App') {
+        stage('Checkout') {
             steps {
-                // deploy the helm chart
                 script {
-                    // create the namespace 
-                    sh "kubectl create namespace ${NAMESPACE}"
-                    // deploy the helm chart
-                    // helm install my-wordpress bitnami/wordpress --version 24.1.13 --namespace wordpress-ns --set service.type=NodePort
+                    echo 'Checking out source code...'
+                }
+            }
+        }
+
+        stage('Setup Helm') {
+            steps {
+                script {
+                    sh 'alias helm=${HELM_CMD}'
+                    sh 'helm version'
+                }
+            }
+        }
+
+        stage('Deploy WordPress') {
+            steps {
+                script {
+                    sh '''
+                    alias helm=${HELM_CMD}
+                    helm repo add ${HELM_REPO} https://charts.bitnami.com/${HELM_REPO}
+                    helm repo update
+                    helm install ${RELEASE_NAME} ${HELM_REPO}/${HELM_CHART} \
+                        --version ${CHART_VERSION} \
+                        --namespace ${NAMESPACE} \
+                        --set service.type=${SERVICE_TYPE}
+                    '''
                 }
             }
         }
