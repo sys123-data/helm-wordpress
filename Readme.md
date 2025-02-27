@@ -97,3 +97,12 @@ sudo snap install helm --classic
 ```sh
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
+# add jenkins user to hack group | change file perm for authorization to k8s
+```sh
+sudo usermod -aG hack jenkins
+sudo systemctl restart jenkins
+sudo chmod g+r /home/hack/.kube/config
+sudo chmod g+r /home/hack/.minikube/profiles/minikube/client.key
+```
+
+helm uninstall my-wordpress -n wordpress-ns
