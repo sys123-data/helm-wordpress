@@ -82,6 +82,7 @@ minikube start
 ```
 # create namespace
 ```sh
+helm delete my-wordpress -n wordpress-ns
 kubectl create namespace wordpress-ns
 ```
 # !! back to root
