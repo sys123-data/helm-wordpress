@@ -1,4 +1,4 @@
-# steps to build wordpress in k8s using helm
+// steps to build wordpress in k8s using helm
 pipeline {
     agent any
     environment {
